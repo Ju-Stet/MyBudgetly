@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "FGfG7pNJo/A=",
+  "dgSpecHash": "fN5OqvFiZgE=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Julia\\source\\repos\\MyBudgetly.API\\MyBudgetly.API.csproj",
+  "projectFilePath": "C:\\Users\\Julia\\source\\repos\\MyBudgetly\\MyBudgetly.API\\MyBudgetly.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Julia\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.3\\microsoft.aspnetcore.openapi.9.0.3.nupkg.sha512",
     "C:\\Users\\Julia\\.nuget\\packages\\microsoft.openapi\\1.6.17\\microsoft.openapi.1.6.17.nupkg.sha512"
