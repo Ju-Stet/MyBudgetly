@@ -33,6 +33,43 @@
             "related": ".pdb;.xml"
           }
         }
+      },
+      "MyBudgetly.Application/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "dependencies": {
+          "MyBudgetly.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MyBudgetly.Application.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MyBudgetly.Application.dll": {}
+        }
+      },
+      "MyBudgetly.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "compile": {
+          "bin/placeholder/MyBudgetly.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MyBudgetly.Domain.dll": {}
+        }
+      },
+      "MyBudgetly.Infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "dependencies": {
+          "MyBudgetly.Application": "1.0.0",
+          "MyBudgetly.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MyBudgetly.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MyBudgetly.Infrastructure.dll": {}
+        }
       }
     }
   },
@@ -67,11 +104,28 @@
         "microsoft.openapi.1.6.17.nupkg.sha512",
         "microsoft.openapi.nuspec"
       ]
+    },
+    "MyBudgetly.Application/1.0.0": {
+      "type": "project",
+      "path": "../MyBudgetly.Application/MyBudgetly.Application.csproj",
+      "msbuildProject": "../MyBudgetly.Application/MyBudgetly.Application.csproj"
+    },
+    "MyBudgetly.Domain/1.0.0": {
+      "type": "project",
+      "path": "../MyBudgetly.Domain/MyBudgetly.Domain.csproj",
+      "msbuildProject": "../MyBudgetly.Domain/MyBudgetly.Domain.csproj"
+    },
+    "MyBudgetly.Infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../MyBudgetly.Infrastructure/MyBudgetly.Infrastructure.csproj",
+      "msbuildProject": "../MyBudgetly.Infrastructure/MyBudgetly.Infrastructure.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net9.0": [
-      "Microsoft.AspNetCore.OpenApi >= 9.0.3"
+      "Microsoft.AspNetCore.OpenApi >= 9.0.3",
+      "MyBudgetly.Application >= 1.0.0",
+      "MyBudgetly.Infrastructure >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -108,7 +162,14 @@
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\Julia\\source\\repos\\MyBudgetly\\MyBudgetly.Application\\MyBudgetly.Application.csproj": {
+              "projectPath": "C:\\Users\\Julia\\source\\repos\\MyBudgetly\\MyBudgetly.Application\\MyBudgetly.Application.csproj"
+            },
+            "C:\\Users\\Julia\\source\\repos\\MyBudgetly\\MyBudgetly.Infrastructure\\MyBudgetly.Infrastructure.csproj": {
+              "projectPath": "C:\\Users\\Julia\\source\\repos\\MyBudgetly\\MyBudgetly.Infrastructure\\MyBudgetly.Infrastructure.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
