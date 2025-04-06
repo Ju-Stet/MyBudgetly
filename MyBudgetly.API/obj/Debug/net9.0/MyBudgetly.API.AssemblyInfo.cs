@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MyBudgetly.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d1b362e55aafddf6e324130d30d3d0e2c226acdd")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+12c83da2420a0790798d79cbd36eb9cc60bdbf34")]
 [assembly: System.Reflection.AssemblyProductAttribute("MyBudgetly.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MyBudgetly.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
