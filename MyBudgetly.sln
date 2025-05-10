@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyBudgetly.Infrastructure",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyBudgetly.Domain", "MyBudgetly.Domain\MyBudgetly.Domain.csproj", "{08EB9DD6-0819-4531-AB83-6A677D1CA307}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyBudgetly.Tests", "tests\MyBudgetly.Tests\MyBudgetly.Tests.csproj", "{4BACB1D5-E1F6-59BF-E20D-55E41D17C598}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,18 @@ Global
 		{08EB9DD6-0819-4531-AB83-6A677D1CA307}.Release|x64.Build.0 = Release|Any CPU
 		{08EB9DD6-0819-4531-AB83-6A677D1CA307}.Release|x86.ActiveCfg = Release|Any CPU
 		{08EB9DD6-0819-4531-AB83-6A677D1CA307}.Release|x86.Build.0 = Release|Any CPU
+		{4BACB1D5-E1F6-59BF-E20D-55E41D17C598}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BACB1D5-E1F6-59BF-E20D-55E41D17C598}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BACB1D5-E1F6-59BF-E20D-55E41D17C598}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4BACB1D5-E1F6-59BF-E20D-55E41D17C598}.Debug|x64.Build.0 = Debug|Any CPU
+		{4BACB1D5-E1F6-59BF-E20D-55E41D17C598}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4BACB1D5-E1F6-59BF-E20D-55E41D17C598}.Debug|x86.Build.0 = Debug|Any CPU
+		{4BACB1D5-E1F6-59BF-E20D-55E41D17C598}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BACB1D5-E1F6-59BF-E20D-55E41D17C598}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BACB1D5-E1F6-59BF-E20D-55E41D17C598}.Release|x64.ActiveCfg = Release|Any CPU
+		{4BACB1D5-E1F6-59BF-E20D-55E41D17C598}.Release|x64.Build.0 = Release|Any CPU
+		{4BACB1D5-E1F6-59BF-E20D-55E41D17C598}.Release|x86.ActiveCfg = Release|Any CPU
+		{4BACB1D5-E1F6-59BF-E20D-55E41D17C598}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
