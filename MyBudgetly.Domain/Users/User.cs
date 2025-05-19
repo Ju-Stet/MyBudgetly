@@ -1,23 +1,21 @@
-﻿namespace MyBudgetly.Domain.Users;
+﻿using MyBudgetly.Domain.Common;
 
-public class User
+namespace MyBudgetly.Domain.Users;
+
+public class User : BaseEntity
 {
-    public Guid Id { get; set; }
     public string FirstName { get; set; } = null!;
     public string LastName { get; set; } = null!;
     public string Email { get; set; } = null!;
-    public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
-    public DateTime UpdatedAt { get; private set; } = DateTime.UtcNow;
+
+    private User() 
+    { }
 
     public User(string firstName, string lastName, string email)
     {
         FirstName = firstName;
         LastName = lastName;
         Email = email;
-
-        var now = DateTime.UtcNow;
-        CreatedAt = now;
-        UpdatedAt = now;
     }
 
     public void UpdateName(string firstName, string lastName)
