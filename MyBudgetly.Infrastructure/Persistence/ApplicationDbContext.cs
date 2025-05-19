@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyBudgetly.Application.Interfaces;
-using MyBudgetly.Domain.Entities;
+using MyBudgetly.Domain.Users;
 
 namespace MyBudgetly.Infrastructure.Persistence;
 
@@ -23,6 +23,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
             entity.Property(x => x.LastName).IsRequired().HasMaxLength(100);
             entity.Property(x => x.Email).IsRequired().HasMaxLength(200);
             entity.Property(x => x.CreatedAt).HasDefaultValueSql("GETUTCDATE()");
+            entity.HasIndex(x => x.Email).IsUnique();
         });
     }
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
