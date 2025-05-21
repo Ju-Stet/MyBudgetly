@@ -36,6 +36,9 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
             entity.HasIndex(x => x.Email)
                   .IsUnique();
+
+            entity.Property(x => x.BackupEmail)
+                  .HasMaxLength(200);
         });
     }
 
