@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyBudgetly.Domain.Entities;
+using MyBudgetly.Domain.Users;
 
 namespace MyBudgetly.Application.Interfaces;
 
