@@ -2,7 +2,7 @@
 using MediatR;
 using MyBudgetly.Domain.Users;
 
-namespace MyBudgetly.Application.Users.Commands.UpdateUser;
+namespace MyBudgetly.Application.Users.Commands;
 
 public static class UpdateUserCommand
 {
@@ -25,25 +25,18 @@ public static class UpdateUserCommand
         }
     }
 
-    public class Handler : IRequestHandler<Message, bool>
+    public class Handler(IUserRepository userRepository) : IRequestHandler<Message, bool>
     {
-        private readonly IUserRepository _userRepository;
-        private readonly UserService _domainService;
+        private readonly IUserRepository _userRepository = userRepository;
 
-        public Handler(IUserRepository userRepository, UserService domainService)
+        public async Task<bool> Handle(Message message, CancellationToken cancellationToken)
         {
-            _userRepository = userRepository;
-            _domainService = domainService;
-        }
-
-        public async Task<bool> Handle(Message request, CancellationToken cancellationToken)
-        {
-            var user = await _userRepository.GetByIdAsync(request.Id, cancellationToken);
+            var user = await _userRepository.GetByIdAsync(message.Id, cancellationToken);
             if (user == null)
                 return false;
 
-            user.UpdateName(request.FirstName, request.LastName);
-            user.UpdateBackupEmail(request.BackupEmail);
+            user.UpdateName(message.FirstName, message.LastName);
+            user.UpdateBackupEmail(message.BackupEmail);
 
             await _userRepository.UpdateAsync(user, cancellationToken);
             return true;

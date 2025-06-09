@@ -1,4 +1,5 @@
 ﻿using MyBudgetly.Domain.Common;
+using MyBudgetly.Domain.Utility;
 
 namespace MyBudgetly.Domain.Users;
 
@@ -9,13 +10,9 @@ public class User : BaseEntity
     public string Email { get; } = null!;
     public string? BackupEmail { get; set; } = null!;
 
-    private User()
-    { }
-
-    public User(string firstName, string lastName, string email)
-    {
-        FirstName = firstName;
-        LastName = lastName;
+    public User(Guid id, DateTime createdAt, string email)
+        : base(id, createdAt)
+    { 
         Email = email;
     }
 
@@ -30,5 +27,12 @@ public class User : BaseEntity
     {
         BackupEmail = backupEmail;
         UpdatedAt = DateTime.UtcNow;
+    }
+
+    public override string ToString()
+    {
+        return ToStringUtility.ToString<User>(
+            (nameof(FirstName), FirstName),
+            (nameof(LastName), LastName));
     }
 }

@@ -1,20 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyBudgetly.Domain.Users;
+using MyBudgetly.Domain.Users.Exceptions;
 using MyBudgetly.Infrastructure.Persistence;
 
 namespace MyBudgetly.Infrastructure.Users;
 
-public class UserRepository : IUserRepository
+public class UserRepository(ApplicationDbContext context) : IUserRepository
 {
-    private readonly ApplicationDbContext _context;
+    private readonly ApplicationDbContext _context = context;
 
-    public UserRepository(ApplicationDbContext context)
-    {
-        _context = context;
-    }
-
-    public async Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
-        => await _context.Users.FindAsync(id, cancellationToken);
+    public async Task<User> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    { 
+        var user = await _context.Users.FindAsync([id], cancellationToken: cancellationToken) ?? throw new UserNotFoundException(id);
+        return user;
+    }        
 
     public async Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
         => await _context.Users.FirstOrDefaultAsync(u => u.Email == email, cancellationToken);

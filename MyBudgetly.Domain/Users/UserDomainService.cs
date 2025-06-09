@@ -1,14 +1,8 @@
 ﻿namespace MyBudgetly.Domain.Users;
 
-public class UserService
+public class UserDomainService(IUserUniquenessChecker userUniquenessChecker)
 {
-    private readonly IUserUniquenessChecker _userUniquenessChecker;
-
-    public UserService(IUserUniquenessChecker userUniquenessChecker)
-    {
-        _userUniquenessChecker = userUniquenessChecker;
-    }
-
+    private readonly IUserUniquenessChecker _userUniquenessChecker = userUniquenessChecker;
     public async Task<bool> CanChangeEmailAsync(string newEmail, CancellationToken cancellationToken = default)
     {
         return await _userUniquenessChecker.IsEmailUniqueAsync(newEmail, cancellationToken);
