@@ -15,7 +15,8 @@ internal class Program
         builder.Services.AddControllers();
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-        builder.Services.AddScoped(provider => provider.GetRequiredService<IApplicationDbContext>());
+        builder.Services.AddScoped<IApplicationDbContext>(
+            provider => provider.GetRequiredService<ApplicationDbContext>());
         builder.Services.AddInfrastructure();
         builder.Services.AddApplication();
 

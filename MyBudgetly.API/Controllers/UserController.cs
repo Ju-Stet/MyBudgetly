@@ -2,11 +2,11 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MyBudgetly.API.Controllers.Base;
+using MyBudgetly.Application.Users.Commands;
 using MyBudgetly.Application.Users.Dto.Models;
 using MyBudgetly.Application.Users.Queries;
 
 namespace MyBudgetly.API.Controllers;
-
 
 [ApiController]
 [Route("api/[controller]")]
@@ -27,5 +27,20 @@ public class UserController(IMediator mediator) : MediatorController(mediator)
         };
 
         return await SendMessage(query);
+    }
+    /// <summary>
+    /// Creates new User
+    /// </summary>
+    /// <param name="newUser">New user to create</param>
+    /// <returns>ID of the created user</returns>
+    [HttpPost("create-user")]
+    public async Task<Guid> CreateUser(CreateUserDto newUser)
+    {
+        var createUserCommand = new CreateUserCommand.Message
+        {
+            UserDto = newUser
+        };
+
+        return await SendMessage(createUserCommand);
     }
 }

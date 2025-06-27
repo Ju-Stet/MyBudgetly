@@ -10,6 +10,12 @@ public class User : BaseEntity
     public string Email { get; } = null!;
     public string? BackupEmail { get; set; } = null!;
 
+    public User(string email)
+    : base()
+    {
+        Email = email;
+    }
+
     public User(Guid id, DateTime createdAt, string email)
         : base(id, createdAt)
     { 

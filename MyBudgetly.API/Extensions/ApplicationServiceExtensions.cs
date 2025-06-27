@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using MediatR;
 using MyBudgetly.Application.Users;
 using MyBudgetly.Application.Users.Dto.Mappers;
 using MyBudgetly.Domain.Users;
@@ -12,6 +13,8 @@ public static class ApplicationServiceExtensions
     {
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.Load("MyBudgetly.Application")));
 
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+
         // dbo mappers
         services.AddSingleton<UserDboMapper>();
 
@@ -23,7 +26,7 @@ public static class ApplicationServiceExtensions
         services.AddScoped<UserApplicationService>();
 
         // validators
-        //
+        services.AddScoped<IUserUniquenessChecker, UserUniquenessChecker>();
 
         return services;
     }
