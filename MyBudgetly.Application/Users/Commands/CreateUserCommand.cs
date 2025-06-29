@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using MediatR;
 using MyBudgetly.Application.Users.Dto.Models;
+using MyBudgetly.Domain.Common.Exceptions;
 using MyBudgetly.Domain.Users;
 
 namespace MyBudgetly.Application.Users.Commands;
@@ -22,42 +23,51 @@ public static class CreateUserCommand
         }
     }
 
-    public class Handler : IRequestHandler<Message, Guid>
+    public class Handler(
+        IUserRepository userRepository,
+        UserApplicationService userApplicationService,
+        UserDomainService userDomainService
+            ) : IRequestHandler<Message, Guid>
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IUserUniquenessChecker _uniquenessChecker;
-        private readonly UserApplicationService _userApplicationService;
-
-        public Handler(
-            IUserRepository userRepository,
-            IUserUniquenessChecker uniquenessChecker,
-            UserApplicationService userApplicationService
-            )
-        {
-            _userRepository = userRepository;
-            _uniquenessChecker = uniquenessChecker;
-            _userApplicationService = userApplicationService;
-        }
-
         public async Task<Guid> Handle(Message message, CancellationToken cancellationToken)
         {
-            var userDto = message.UserDto;
+            var dto = message.UserDto;
 
-            var isUnique = await _uniquenessChecker.IsEmailUniqueAsync(userDto.Email, cancellationToken);
-            if (!isUnique)
+            // 1. Checking the primary email
+            var canUseEmail = await userDomainService.CanUseEmailAsync(dto.Email, cancellationToken);
+            if (!canUseEmail)
             {
-                throw MyBudgetlyExceptions.GetEmailAlreadyInUseException(userDto.Email);
+                throw MyBudgetlyExceptions.GetEmailAlreadyInUseException(dto.Email);
             }
 
-            var user = _userApplicationService.CreateUser(
-                userDto.Email,
-                userDto.FirstName,
-                userDto.LastName,
-                userDto.BackupEmail
-                );
+            // 2. Checking the backup email (if added)
+            if (!string.IsNullOrWhiteSpace(dto.BackupEmail))
+            {
+                var backupUsed = await userDomainService
+                    .CanUseEmailAsync(dto.BackupEmail, cancellationToken);
 
-            await _userRepository.AddAsync(user);
-            await _userRepository.SaveChangesAsync();
+                if (!backupUsed)
+                {
+                    throw MyBudgetlyExceptions.GetEmailAlreadyInUseException(dto.BackupEmail);
+                }
+
+                // 3. Checking that the primary and backup do not match
+                if (dto.Email.Equals(dto.BackupEmail, StringComparison.OrdinalIgnoreCase))
+                {
+                    throw new DomainException("Backup email must differ from the primary email.");
+                }
+            }
+
+            var user = userApplicationService.CreateUser(
+                dto.Email,
+                dto.FirstName,
+                dto.LastName,
+                dto.BackupEmail
+            );
+
+            await userRepository.AddAsync(user, cancellationToken);
+            await userRepository.SaveChangesAsync(cancellationToken);
+
             return user.Id;
         }
     }

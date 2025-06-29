@@ -2,19 +2,12 @@
 
 namespace MyBudgetly.Application.Users;
 
-public class UserApplicationService(IUserRepository userRepository, IUserUniquenessChecker uniquenessChecker)
-{  
-
-    public User CreateUser(
-        string email, 
-        string firstName, 
-        string lastName, 
-        string? backupEmail
-        )
+public class UserApplicationService
+{
+    public User CreateUser(string email, string firstName, string lastName, string? backupEmail)
     {
         var user = new User(email);
-        user.UpdateName(firstName, lastName);
-        user.UpdateBackupEmail(backupEmail);
+        user.UpdateProfile(firstName, lastName, backupEmail);
         return user;
     }
 }

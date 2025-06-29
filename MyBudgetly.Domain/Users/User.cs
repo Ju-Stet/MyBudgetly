@@ -22,17 +22,32 @@ public class User : BaseEntity
         Email = email;
     }
 
-    public void UpdateName(string firstName, string lastName)
+    public void UpdateProfile(string? firstName, string? lastName, string? backupEmail)
     {
-        FirstName = firstName;
-        LastName = lastName;
-        UpdatedAt = DateTime.UtcNow;
-    }
+        var isChanged = false;
 
-    public void UpdateBackupEmail(string? backupEmail) 
-    {
-        BackupEmail = backupEmail;
-        UpdatedAt = DateTime.UtcNow;
+        if (!string.IsNullOrWhiteSpace(firstName) && FirstName != firstName)
+        {
+            FirstName = firstName;
+            isChanged = true;
+        }
+
+        if (!string.IsNullOrWhiteSpace(lastName) && LastName != lastName)
+        {
+            LastName = lastName;
+            isChanged = true;
+        }
+
+        if (backupEmail != null && BackupEmail != backupEmail)
+        {
+            BackupEmail = backupEmail;
+            isChanged = true;
+        }
+
+        if (isChanged)
+        {
+            UpdatedAt = DateTime.UtcNow;
+        }
     }
 
     public override string ToString()

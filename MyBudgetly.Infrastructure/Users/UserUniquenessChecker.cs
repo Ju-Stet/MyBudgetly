@@ -4,17 +4,13 @@ using MyBudgetly.Domain.Users;
 
 namespace MyBudgetly.Infrastructure.Users;
 
-public class UserUniquenessChecker : IUserUniquenessChecker
+public class UserUniquenessChecker(IApplicationDbContext context) : IUserUniquenessChecker
 {
-    private readonly IApplicationDbContext _context;
-
-    public UserUniquenessChecker(IApplicationDbContext context)
+    public async Task<bool> IsEmailUsedByAnotherUserAsync(Guid? currentUserId, string email, CancellationToken ct = default)
     {
-        _context = context;
-    }
-
-    public async Task<bool> IsEmailUniqueAsync(string email, CancellationToken cancellationToken = default)
-    {
-        return !await _context.Users.AnyAsync(u => u.Email == email, cancellationToken);
+        return await context.Users.AnyAsync(u =>
+            (!currentUserId.HasValue || u.Id != currentUserId.Value) &&
+            (u.Email == email || u.BackupEmail == email),
+            ct);
     }
 }

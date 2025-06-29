@@ -43,4 +43,18 @@ public class UserController(IMediator mediator) : MediatorController(mediator)
 
         return await SendMessage(createUserCommand);
     }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateUserDto user)
+    {
+        var updateUserCommand = new UpdateUserCommand.Message
+        {
+            UserId = id,
+            UserDto = user
+        };
+
+        var result = await SendMessage(updateUserCommand);
+
+        return result ? NoContent() : NotFound();
+    }
 }

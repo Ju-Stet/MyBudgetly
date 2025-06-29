@@ -18,7 +18,7 @@ internal class Program
         builder.Services.AddScoped<IApplicationDbContext>(
             provider => provider.GetRequiredService<ApplicationDbContext>());
         builder.Services.AddInfrastructure();
-        builder.Services.AddApplication();
+        builder.Services.AddApplication();        
 
         var app = builder.Build();
 
