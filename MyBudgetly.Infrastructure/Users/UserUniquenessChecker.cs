@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyBudgetly.Application.Interfaces;
 using MyBudgetly.Domain.Users;
+using MyBudgetly.Infrastructure.Persistence.Abstractions;
 
 namespace MyBudgetly.Infrastructure.Users;
 

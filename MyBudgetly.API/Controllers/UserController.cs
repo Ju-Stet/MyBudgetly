@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MyBudgetly.API.Controllers.Base;
 using MyBudgetly.Application.Users.Commands;
@@ -10,51 +9,72 @@ namespace MyBudgetly.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Produces("application/json")]
+[Consumes("application/json")]
 public class UserController(IMediator mediator) : MediatorController(mediator)
 {
-
     /// <summary>
-    /// Gets user information by user ID.
+    /// Gets all users.
     /// </summary>
-    /// <param name="userId">The ID of the user.</param>
-    /// <returns>User details.</returns>
-    [HttpGet("get-user")]
-    public async Task<UserDto> GetUser([FromQuery][Required] Guid userId)
+    [HttpGet]
+    [ProducesResponseType(typeof(List<UserDto>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAll()
     {
-        var query = new GetUserQuery.Message
-        {
-            UserId = userId
-        };
-
-        return await SendMessage(query);
-    }
-    /// <summary>
-    /// Creates new User
-    /// </summary>
-    /// <param name="newUser">New user to create</param>
-    /// <returns>ID of the created user</returns>
-    [HttpPost("create-user")]
-    public async Task<Guid> CreateUser(CreateUserDto newUser)
-    {
-        var createUserCommand = new CreateUserCommand.Message
-        {
-            UserDto = newUser
-        };
-
-        return await SendMessage(createUserCommand);
+        var query = new GetAllUsersQuery.Message();
+        var result = await SendMessage(query);
+        return Ok(result);
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateUserDto user)
+    /// <summary>
+    /// Gets a user by ID.
+    /// </summary>
+    [HttpGet("{userId:guid}")]
+    [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetById(Guid userId)
     {
-        var updateUserCommand = new UpdateUserCommand.Message
-        {
-            UserId = id,
-            UserDto = user
-        };
+        var query = new GetUserQuery.Message { UserId = userId };
+        var result = await SendMessage(query);
+        return Ok(result);
+    }
 
-        var result = await SendMessage(updateUserCommand);
+    /// <summary>
+    /// Creates a new user.
+    /// </summary>
+    [HttpPost]
+    [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> Create([FromBody] CreateUserDto dto)
+    {
+        var command = new CreateUserCommand.Message { UserDto = dto };
+        var newUserId = await SendMessage(command);
 
-        return result ? NoContent() : NotFound();
+        return CreatedAtAction(nameof(GetById), new { userId = newUserId }, newUserId);
+    }
+
+    /// <summary>
+    /// Updates an existing user.
+    /// </summary>
+    [HttpPut("{userId:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Update(Guid userId, [FromBody] UpdateUserDto dto)
+    {
+        var command = new UpdateUserCommand.Message { UserId = userId, UserDto = dto };
+        var success = await SendMessage(command);
+
+        return success ? NoContent() : NotFound();
+    }
+
+    /// <summary>
+    /// Deletes a user by ID.
+    /// </summary>
+    [HttpDelete("{userId:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Delete(Guid userId)
+    {
+        // TODO: Додати DeleteUserCommand, якщо потрібно
+        return NoContent(); // тимчасово
     }
 }

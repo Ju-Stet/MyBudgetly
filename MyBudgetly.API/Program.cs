@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using MyBudgetly.API.Extensions;
-using MyBudgetly.Application.Interfaces;
 using MyBudgetly.Infrastructure.Extensions;
 using MyBudgetly.Infrastructure.Persistence;
+using MyBudgetly.Infrastructure.Persistence.Abstractions;
 
 internal class Program
 {

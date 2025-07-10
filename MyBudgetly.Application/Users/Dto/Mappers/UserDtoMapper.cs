@@ -9,8 +9,16 @@ public class UserDtoMapper
     {
         return new UserDto
         {
+            UserId = user.Id,
             FirstName = user.FirstName,
             LastName = user.LastName
         };
+    }
+
+    public List<UserDto> ToDtoList(IEnumerable<User> users)
+    {
+        return users
+            .Select(u => ToDto(u))
+            .ToList();
     }
 }

@@ -31,4 +31,12 @@ public class UserDboMapper
             BackupEmail = dbo.BackupEmail
         };
     }
+
+    public void MapToExistingDbo(User user, UserDbo dbo)
+    {
+        dbo.FirstName = user.FirstName;
+        dbo.LastName = user.LastName;
+        dbo.BackupEmail = user.BackupEmail;
+        dbo.UpdatedAt = user.UpdatedAt ?? DateTime.UtcNow;
+    }
 }

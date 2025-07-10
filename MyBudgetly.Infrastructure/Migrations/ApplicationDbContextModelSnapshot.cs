@@ -22,7 +22,7 @@ namespace MyBudgetly.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("MyBudgetly.Domain.Users.User", b =>
+            modelBuilder.Entity("MyBudgetly.Infrastructure.Persistence.Models.UserDbo", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
