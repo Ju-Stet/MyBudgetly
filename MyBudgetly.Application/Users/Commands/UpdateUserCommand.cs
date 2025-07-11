@@ -34,33 +34,21 @@ public static class UpdateUserCommand
 
     public class Handler(
         IUserRepository userRepository,
-        UserDomainService userDomainService,
-        ILogger<UpdateUserCommand.Handler> logger) : IRequestHandler<Message, bool>
+        UserDomainService userDomainService): IRequestHandler<Message, bool>
     {
         public async Task<bool> Handle(Message message, CancellationToken cancellationToken)
         {
             var user = await userRepository.GetByIdAsync(message.UserId, cancellationToken);
             if (user == null)
-            {
-                logger.LogWarning("User with ID {UserId} not found", message.UserId);
                 return false;
-            }
 
-            try
-            {
-                await userDomainService.UpdateUserAsync(
-                    user,
-                    message.UserDto.FirstName,
-                    message.UserDto.LastName,
-                    message.UserDto.BackupEmail,
-                    cancellationToken
-                );
-            }
-            catch (DomainException ex)
-            {
-                logger.LogWarning(ex, "Validation error while updating user with ID {UserId}", message.UserId);
-                throw; 
-            }
+            await userDomainService.UpdateUserAsync(
+                user,
+                message.UserDto.FirstName,
+                message.UserDto.LastName,
+                message.UserDto.BackupEmail,
+                cancellationToken
+            );
 
             await userRepository.UpdateAsync(user, cancellationToken);
             await userRepository.SaveChangesAsync(cancellationToken);
