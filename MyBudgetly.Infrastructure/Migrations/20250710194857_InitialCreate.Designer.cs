@@ -12,8 +12,8 @@ using MyBudgetly.Infrastructure.Persistence;
 namespace MyBudgetly.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250521183528_MakeEmailImmutable")]
-    partial class MakeEmailImmutable
+    [Migration("20250710194857_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace MyBudgetly.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("MyBudgetly.Domain.Users.User", b =>
+            modelBuilder.Entity("MyBudgetly.Infrastructure.Persistence.Models.UserDbo", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()

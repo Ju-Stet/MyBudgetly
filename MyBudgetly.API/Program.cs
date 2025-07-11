@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using MyBudgetly.Application.Interfaces;
+using MyBudgetly.API.Extensions;
+using MyBudgetly.API.Middleware;
 using MyBudgetly.Infrastructure.Extensions;
 using MyBudgetly.Infrastructure.Persistence;
+using MyBudgetly.Infrastructure.Persistence.Abstractions;
 
 internal class Program
 {
@@ -9,23 +11,29 @@ internal class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Add services to the container.
-        // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-        builder.Services.AddOpenApi();
-        builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-        builder.Services.AddScoped(provider => provider.GetRequiredService<IApplicationDbContext>());
+        // Add services
+        builder.Services.AddSwaggerDocs();
+        builder.Services.AddControllers();
+        builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+        builder.Services.AddScoped<IApplicationDbContext>(
+            provider => provider.GetRequiredService<ApplicationDbContext>());
         builder.Services.AddInfrastructure();
+        builder.Services.AddApplication();
 
         var app = builder.Build();
 
-        // Configure the HTTP request pipeline.
+        // Middleware
         if (app.Environment.IsDevelopment())
         {
             app.MapOpenApi();
+            app.UseSwagger();
+            app.UseSwaggerUI();
         }
 
+        app.UseMiddleware<ExceptionHandlingMiddleware>();
         app.UseHttpsRedirection();
-
+        app.MapControllers();
         app.Run();
     }
 }

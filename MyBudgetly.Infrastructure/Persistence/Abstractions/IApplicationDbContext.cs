@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyBudgetly.Domain.Users;
+using MyBudgetly.Infrastructure.Persistence.Models;
 
-namespace MyBudgetly.Application.Interfaces;
+namespace MyBudgetly.Infrastructure.Persistence.Abstractions;
 
 public interface IApplicationDbContext
 {
-    DbSet<User> Users { get; }
+    DbSet<UserDbo> Users { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

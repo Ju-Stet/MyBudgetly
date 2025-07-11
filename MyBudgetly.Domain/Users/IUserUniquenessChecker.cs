@@ -2,5 +2,5 @@
 
 public interface IUserUniquenessChecker
 {
-    Task<bool> IsEmailUniqueAsync(string email, CancellationToken cancellationToken = default);
+    Task<bool> IsEmailUsedByAnotherUserAsync(Guid? currentUserId, string email, CancellationToken ct = default);
 }
