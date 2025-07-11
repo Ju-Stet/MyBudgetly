@@ -69,12 +69,14 @@ public class UserController(IMediator mediator) : MediatorController(mediator)
     /// <summary>
     /// Deletes a user by ID.
     /// </summary>
-    [HttpDelete("{userId:guid}")]
+    [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Delete(Guid userId)
+    public async Task<IActionResult> DeleteUser(Guid id)
     {
-        // TODO: Додати DeleteUserCommand, якщо потрібно
-        return NoContent(); // тимчасово
+        var command = new DeleteUserCommand.Message { UserId = id };
+        var result = await SendMessage(command);
+
+        return result ? NoContent() : NotFound();
     }
 }
