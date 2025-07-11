@@ -45,6 +45,7 @@ public class UserController(IMediator mediator) : MediatorController(mediator)
     [HttpPost]
     [ProducesResponseType(typeof(ApiResponse<Guid>), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status409Conflict)]
     public async Task<IActionResult> Create([FromBody] CreateUserDto dto)
     {
         var command = new CreateUserCommand.Message { UserDto = dto };
