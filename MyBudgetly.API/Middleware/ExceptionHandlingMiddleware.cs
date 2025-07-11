@@ -1,8 +1,9 @@
 ﻿using System.Net;
 using System.Text.Json;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
+using MyBudgetly.Application.Common.Models;
 using MyBudgetly.Domain.Common.Exceptions;
+
+namespace MyBudgetly.API.Middleware;
 
 public class ExceptionHandlingMiddleware
 {
@@ -29,11 +30,10 @@ public class ExceptionHandlingMiddleware
 
     private static async Task HandleExceptionAsync(HttpContext context, Exception exception, ILogger logger)
     {
-        var response = context.Response;
-        response.ContentType = "application/json";
+        context.Response.ContentType = "application/json";
 
-        int statusCode = (int)HttpStatusCode.InternalServerError;
-        string message = "An unexpected error occurred.";
+        var statusCode = (int)HttpStatusCode.InternalServerError;
+        var message = "An unexpected error occurred.";
 
         if (exception is ExceptionWithStatusCode exWithStatus)
         {
@@ -46,14 +46,11 @@ public class ExceptionHandlingMiddleware
             logger.LogError(exception, exception.Message);
         }
 
-        response.StatusCode = statusCode;
+        context.Response.StatusCode = statusCode;
 
-        var result = JsonSerializer.Serialize(new
-        {
-            error = message,
-            statusCode = response.StatusCode
-        });
+        var errorResponse = ApiResponse<string>.Failure(message, statusCode);
+        var json = JsonSerializer.Serialize(errorResponse);
 
-        await response.WriteAsync(result);
+        await context.Response.WriteAsync(json);
     }
 }

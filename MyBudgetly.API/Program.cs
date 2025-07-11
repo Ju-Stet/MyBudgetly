@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MyBudgetly.API.Extensions;
+using MyBudgetly.API.Middleware;
 using MyBudgetly.Infrastructure.Extensions;
 using MyBudgetly.Infrastructure.Persistence;
 using MyBudgetly.Infrastructure.Persistence.Abstractions;
@@ -18,7 +19,7 @@ internal class Program
         builder.Services.AddScoped<IApplicationDbContext>(
             provider => provider.GetRequiredService<ApplicationDbContext>());
         builder.Services.AddInfrastructure();
-        builder.Services.AddApplication();        
+        builder.Services.AddApplication();
 
         var app = builder.Build();
 
